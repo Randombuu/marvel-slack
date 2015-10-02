@@ -23,6 +23,8 @@ Get Marvel character information in Slack
 * Try a search (ex: ".marvel Black Widow"). You should get a character information back.
 
 ### Thanks
+[Marvel Developer portal](http://developer.marvel.com/)
+
 [Marvelite Ruby Gem](https://github.com/antillas21/marvelite)
 
 [@gesteves](https://github.com/gesteves/) Who's code I am constantly referencing.
