@@ -36,7 +36,7 @@ def generate_attachment
   @resultscheck = generalquery[:data][:results][0]
 
 if @resultscheck.nil?
-  response = { title: "No results", text: "The Marvel API returns characters with names that begin with the specified string. Check your spelling and try again." }
+  response = { title: "No results", text: "The Marvel API returns characters with names that begin with the specified string. Try a different spelling or abbreviation (ex: Ms. Marvel vs Miss Marvel) and try again." }
 else
   @id = generalquery[:data][:results][0][:id]
   @name = generalquery[:data][:results][0][:name]
@@ -49,8 +49,14 @@ else
   @thumb_url = "#{@thumbnailpath}.#{@thumbnailext}"
 
   issuequery = client.comics(:characters => "#{@id}", :orderBy => '-focDate', :limit => 1)
+  @issueresultscheck = issuequery[:data][:results][0]
+if @issueresultscheck.nil?
+  @latest = "No comic information for this character"
+  @latesturl = "http://marvel.com/comics/"
+else
   @latest = issuequery[:data][:results][0][:title]
   @latesturl = issuequery[:data][:results][0][:urls][0][:url]
+end
 
   # response
   response = { title: "#{@name}", title_link: "#{@url}", text: "#{@description}", thumb_url: "#{@thumb_url}", fields: [ { title: "Comics", value: "#{@comics}", short: true }, { title: "Series", value: "#{@series}", short: true }, { title: "Most recent", value: "<#{@latesturl}|#{@latest}>", short: false } ] }
