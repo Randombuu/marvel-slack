@@ -33,6 +33,11 @@ def generate_attachment
   client = Marvelite::API::Client.new( :public_key => ENV["MARVEL_PUBLIC_KEY"], :private_key => ENV["MARVEL_PRIVATE_KEY"])
 
   generalquery = client.characters(:nameStartsWith => "#{user_query}", :limit => 1)
+  @resultscheck = generalquery[:data][:results][0]
+
+if @resultscheck.nil?
+  response = { title: "No results", text: "The Marvel API returns characters with names that begin with the specified string. Try a different spelling or abbreviation (ex: Ms. Marvel vs Miss Marvel) and try again." }
+else
   @id = generalquery[:data][:results][0][:id]
   @name = generalquery[:data][:results][0][:name]
   @description = generalquery[:data][:results][0][:description]
@@ -44,11 +49,17 @@ def generate_attachment
   @thumb_url = "#{@thumbnailpath}.#{@thumbnailext}"
 
   issuequery = client.comics(:characters => "#{@id}", :orderBy => '-focDate', :limit => 1)
+  @issueresultscheck = issuequery[:data][:results][0]
+if @issueresultscheck.nil?
+  @latest = "No comic information for this character"
+  @latesturl = "http://marvel.com/comics/"
+else
   @latest = issuequery[:data][:results][0][:title]
   @latesturl = issuequery[:data][:results][0][:urls][0][:url]
-
+end
 
   # response
   response = { title: "#{@name}", title_link: "#{@url}", text: "#{@description}", thumb_url: "#{@thumb_url}", fields: [ { title: "Comics", value: "#{@comics}", short: true }, { title: "Series", value: "#{@series}", short: true }, { title: "Most recent", value: "<#{@latesturl}|#{@latest}>", short: false } ] }
+end
 
 end
