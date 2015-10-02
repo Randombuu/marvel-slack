@@ -1,6 +1,8 @@
 # marvel-slack
 Get Marvel character information in Slack
 
+![Example image](http://i.imgur.com/ymT6u9z.gif)
+
 ### What you will need
 * A [Heroku](http://www.heroku.com) account
 * A [Marvel](https://developer.marvel.com/account) comics developer account
