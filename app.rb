@@ -36,7 +36,7 @@ def generate_attachment
   @resultscheck = generalquery[:data][:results][0]
 
 if @resultscheck.nil?
-  response = { title: "No results", text: "The Marvel API returns characters with names that begin with the specified string. Check your spelling and try again."]
+  response = { title: "No results", text: "The Marvel API returns characters with names that begin with the specified string. Check your spelling and try again." }
 else
   @id = generalquery[:data][:results][0][:id]
   @name = generalquery[:data][:results][0][:name]
